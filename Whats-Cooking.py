@@ -78,7 +78,7 @@ for item in train_data:
     Y.append(classes.index(item.cuisine))
 
 clf = tree.DecisionTreeClassifier()
-clf.fit(X, Y)
+clf.fit(np.array(X).reshape(len(train_data), -1), Y)
 
 test_ids = []
 test_cuis = []
