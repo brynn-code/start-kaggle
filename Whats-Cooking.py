@@ -12,6 +12,8 @@ import os
 import json
 from sklearn import tree
 from sklearn.decomposition import PCA
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import AdaBoostClassifier
 
 
 class recipe:
@@ -107,16 +109,15 @@ print(len(dataArr_test))
 X = dataArr
 Y = labelArr
 
-clf = tree.DecisionTreeClassifier()
-clf.fit(np.array(X).reshape(-1, comp_num), Y)
+model = AdaBoostClassifier(DecisionTreeClassifier(), n_estimators=50)
+model.fit(np.array(X).reshape(-1, comp_num), Y)
+
 print("fit finished.")
-with open("iris.dot", "w") as f:
-    f = tree.export_graphviz(clf, out_file=f)
 
 test_pred = []
 dataArr_test = np.array(dataArr_test).reshape(-1, comp_num)
 for i in range(0, len(dataArr_test)):
-    pred = clf.predict(np.array([dataArr_test[i]]))
+    pred = model.predict(np.array([dataArr_test[i]]))
     print(" == > predict is : ")
     print(pred)
     pred = (int)(pred[0])
